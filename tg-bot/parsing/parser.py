@@ -47,6 +47,19 @@ async def invest_idea_upd():
         db.invest_ideas_info[idea_info[0]] = ["аналитик : " + idea_info[1], 
                                               "срок начала " + idea_info[2], 
                                               "срок достижения цели " + idea_info[3],
-                                              "потенциальная доходность " + idea_info[4],
-                                              "эмитент " + idea_info[5]]
+                                              "потенциальная доходность " + idea_info[5],]
     # print(db.invest_ideas_info)
+
+async def update_msc_stocks():
+    r = requests.get(db.stocks_msc_url)
+    soup = BeautifulSoup(r.text, "lxml")
+    get_stocks_msk = soup.find_all("tr")
+    for i in get_stocks_msk[1:]:
+        i = i.find_all("td")
+        db.stocks_msc_info[("название: " + i[2].text.strip(), "тикер: " + i[3].text.strip())]= [
+                                        "время обновления: " + i[1].text.strip(),
+                                        "последняя цена: " + i[7].text.strip(), 
+                                        "изменение: " + i[8].text.strip(),
+                                        "объем торгов(млн.руб): " + i[9].text.strip()
+                                        ]
+    db.stocks_msk_time_upd = time.mktime(datetime.strptime(datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S").timetuple())

@@ -23,6 +23,7 @@ async def invest_ideas(message: Message):
           parse_mode = "html",
           reply_markup = get_next_ideas_menu()
       )
+      
 @router.message(Text(text = "Следующая идея"))
 async def invest_ideas(message: Message):
     if len(db.invest_ideas_info) == 0:
