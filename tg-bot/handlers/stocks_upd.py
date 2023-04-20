@@ -7,7 +7,7 @@ import parsing.parser as ps
 from datetime import datetime
 import time
 from config import TIME_TO_UPDATE_STOCKS
-from keyboards.main_menu import get_main_menu, get_next_ideas_menu
+from keyboards.main_menu import get_main_menu
 
 router = Router()
 @router.message(commands = "msc_find")
@@ -15,7 +15,7 @@ async def msc_find_upd(message: Message):
     tm = check_is_need_upd()
     if tm != -1:
         await ps.update_msc_stocks()
-        db.stocks_msc_time_upd = datetime.now()
+        db.stocks_msc_time_upd = get_time(datetime.now())
     need_comp = message.text.split()[1].strip()
     answer = f"Вот что удалось найти по запросу {need_comp}:\n\n"
     cnt = 1
@@ -46,7 +46,10 @@ async def msc_find_upd(message: Message):
     )
 
 def check_is_need_upd():
-    time_now = time.mktime(datetime.strptime(datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S").timetuple())
+    time_now = get_time(datetime.now())
     if time_now - db.stocks_msc_time_upd < TIME_TO_UPDATE_STOCKS:
         return -1
     return time_now
+
+def get_time(time_need):
+  return time.mktime(datetime.strptime(datetime.strftime(time_need, "%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S").timetuple())

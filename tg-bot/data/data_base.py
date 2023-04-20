@@ -13,10 +13,3 @@ invest_ideas_info = {}
 stocks_msc_url = 'https://smart-lab.ru/q/shares/' 
 stocks_msc_info = {}
 stocks_msc_time_upd = 0
-
-# stocks_spb_url = 'https://smart-lab.ru/q/spbex/order_by_value_today/desc/page'
-# stocks_spb_info = {}
-
-# goods_and_crypto_url = 'https://smart-lab.ru/q/world-quotes/'
-# goods_info = {}
-# crypto_info = {}
